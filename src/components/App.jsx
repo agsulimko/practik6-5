@@ -1,3 +1,6 @@
+import WordsForm from "./WordsForm/WordsForm";
+
+
 export const App = () => {
   return (
     <div
@@ -10,7 +13,7 @@ export const App = () => {
         color: '#010101'
       }}
     >
-      React homework template
+     <WordsForm/>
     </div>
   );
 };
