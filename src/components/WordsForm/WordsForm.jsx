@@ -3,10 +3,10 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import css from './WordsForm.module.css'
 export default class WordsForm extends Component {
-    render() {
+  render() {
       
     return (
-      <div>
+      <div className={css.wordsFormWrapper} >
         <form className={css.wordsForm}>
            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
            <TextField id="outlined-basic" label="Outlined" variant="outlined" />

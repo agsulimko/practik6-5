@@ -1,19 +1,11 @@
+import { Container } from "@mui/material";
 import WordsForm from "./WordsForm/WordsForm";
 
 
 export const App = () => {
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
+    <Container maxWidth="xl">
      <WordsForm/>
-    </div>
+    </Container>
   );
 };
