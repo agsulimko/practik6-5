@@ -3,10 +3,12 @@ import WordsForm from './WordsForm/WordsForm';
 
 import React, { Component } from 'react';
 import WordsList from './WordsList/WordsList';
+import FilterWords from './FilterWords';
 
 export default class App extends Component {
   state = {
     words: [],
+    filter: '',
   };
 
   formSubmit = newWord => {
@@ -20,11 +22,30 @@ export default class App extends Component {
       words: prevState.words.filter(word => word.id !== id),
     }));
   };
+
+  handleChange = ({ target: { value } }) => {
+    this.setState({ filter: value });
+  };
+
+  getFilteredWords = () => {
+    const normalizedValue = this.state.filter.toLowerCase().trim();
+    return this.state.words.filter(word => {
+      return word.enWord
+        .concat(word.ukWord)
+        .toLowerCase()
+        .includes(normalizedValue);
+    });
+  };
+
   render() {
     return (
       <Container maxWidth="xl">
         <WordsForm onSubmit={this.formSubmit} />
-        <WordsList words={this.state.words} deleteWord={this.hendleDelete} />
+        <FilterWords onChange={this.handleChange} />
+        <WordsList
+          words={this.getFilteredWords()}
+          deleteWord={this.hendleDelete}
+        />
       </Container>
     );
   }
