@@ -1,11 +1,23 @@
-import { Container } from "@mui/material";
-import WordsForm from "./WordsForm/WordsForm";
+import { Container } from '@mui/material';
+import WordsForm from './WordsForm/WordsForm';
 
+import React, { Component } from 'react';
 
-export const App = () => {
-  return (
-    <Container maxWidth="xl">
-     <WordsForm/>
-    </Container>
-  );
-};
+export default class App extends Component {
+  state = {
+    words: [],
+  };
+
+  formSubmit = newWord => {
+    this.setState(prevState => ({
+      words: [...prevState.words, newWord],
+    }));
+  };
+  render() {
+    return (
+      <Container maxWidth="xl">
+        <WordsForm onSubmit={this.formSubmit} />
+      </Container>
+    );
+  }
+}
