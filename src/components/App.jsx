@@ -1,23 +1,23 @@
 import { Container } from '@mui/material';
 import WordsForm from './WordsForm/WordsForm';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import WordsList from './WordsList/WordsList';
 import FilterWords from './FilterWords';
+import { useLocalStorage } from 'hooks/useLocalStorage';
 
 const App = () => {
-  const [words, setWords] = useState(() => {
-    const isData = JSON.parse(localStorage.getItem('words'));
-    return isData ? isData : [];
-  });
+  const [words, setWords] = useLocalStorage('words', []);
   const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    localStorage.setItem('words', JSON.stringify(words));
-  }, [words]);
 
   const formSubmit = newWord => {
     setWords(prevWords => [...prevWords, newWord]);
+  };
+
+  const handlEditWord = editedWord => {
+    setWords(prev =>
+      prev.map(word => (word.id === editedWord.id ? editedWord : word))
+    );
   };
 
   const hendleDelete = id => {
@@ -42,7 +42,11 @@ const App = () => {
     <Container maxWidth="xl">
       <WordsForm onSubmit={formSubmit} />
       <FilterWords onChange={handleChange} />
-      <WordsList words={getFilteredWords()} deleteWord={hendleDelete} />
+      <WordsList
+        words={getFilteredWords()}
+        deleteWord={hendleDelete}
+        handlEditWord={handlEditWord}
+      />
     </Container>
   );
 };
