@@ -1,35 +1,29 @@
 import { Container } from '@mui/material';
 import WordsForm from './WordsForm/WordsForm';
 
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import WordsList from './WordsList/WordsList';
 import FilterWords from './FilterWords';
 
-export default class App extends Component {
-  state = {
-    words: [],
-    filter: '',
+const App = () => {
+  const [words, setWords] = useState([]);
+  const [filter, setFilter] = useState('');
+
+  const formSubmit = newWord => {
+    setWords(prevWords => [...prevWords, newWord]);
   };
 
-  formSubmit = newWord => {
-    this.setState(prevState => ({
-      words: [...prevState.words, newWord],
-    }));
+  const hendleDelete = id => {
+    setWords(prevWords => prevWords.filter(word => word.id !== id));
   };
 
-  hendleDelete = id => {
-    this.setState(prevState => ({
-      words: prevState.words.filter(word => word.id !== id),
-    }));
+  const handleChange = ({ target: { value } }) => {
+    setFilter(value);
   };
 
-  handleChange = ({ target: { value } }) => {
-    this.setState({ filter: value });
-  };
-
-  getFilteredWords = () => {
-    const normalizedValue = this.state.filter.toLowerCase().trim();
-    return this.state.words.filter(word => {
+  const getFilteredWords = () => {
+    const normalizedValue = filter.toLowerCase().trim();
+    return words.filter(word => {
       return word.enWord
         .concat(word.ukWord)
         .toLowerCase()
@@ -37,16 +31,13 @@ export default class App extends Component {
     });
   };
 
-  render() {
-    return (
-      <Container maxWidth="xl">
-        <WordsForm onSubmit={this.formSubmit} />
-        <FilterWords onChange={this.handleChange} />
-        <WordsList
-          words={this.getFilteredWords()}
-          deleteWord={this.hendleDelete}
-        />
-      </Container>
-    );
-  }
-}
+  return (
+    <Container maxWidth="xl">
+      <WordsForm onSubmit={formSubmit} />
+      <FilterWords onChange={handleChange} />
+      <WordsList words={getFilteredWords()} deleteWord={hendleDelete} />
+    </Container>
+  );
+};
+
+export default App;
