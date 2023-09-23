@@ -1,13 +1,20 @@
 import { Container } from '@mui/material';
 import WordsForm from './WordsForm/WordsForm';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import WordsList from './WordsList/WordsList';
 import FilterWords from './FilterWords';
 
 const App = () => {
-  const [words, setWords] = useState([]);
+  const [words, setWords] = useState(() => {
+    const isData = JSON.parse(localStorage.getItem('words'));
+    return isData ? isData : [];
+  });
   const [filter, setFilter] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('words', JSON.stringify(words));
+  }, [words]);
 
   const formSubmit = newWord => {
     setWords(prevWords => [...prevWords, newWord]);
