@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { deleteWord, editWord } from 'redux/wordsSlice';
 
-export default function WordListItem({ word, deleteWord, handlEditWord }) {
+export default function WordListItem({ word }) {
+  const dispatch = useDispatch();
+
   const [isEditMode, setIsEditMode] = useState(false);
   const [ukWord, setUkWord] = useState(word.ukWord);
   const [enWord, setEnWord] = useState(word.enWord);
@@ -11,11 +15,12 @@ export default function WordListItem({ word, deleteWord, handlEditWord }) {
 
   useEffect(() => {
     if (!isEditMode && (ukWord !== word.ukWord || enWord !== word.enWord)) {
-      handlEditWord({
-        id: word.id,
-        ukWord,
-        enWord,
-      });
+      // handlEditWord({
+      // id: word.id,
+      // ukWord,
+      // enWord,
+      // });
+      dispatch(editWord({ id: word.id, ukWord, enWord }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditMode]);
@@ -51,7 +56,7 @@ export default function WordListItem({ word, deleteWord, handlEditWord }) {
         </>
       )}
       <button onClick={handlEdit}>{isEditMode ? 'Save' : 'Edit'}</button>
-      <button onClick={() => deleteWord(word.id)}>Delete</button>
+      <button onClick={() => dispatch(deleteWord(word.id))}>Delete</button>
     </li>
   );
 }

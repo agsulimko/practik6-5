@@ -1,11 +1,16 @@
 import { TextField } from '@mui/material';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { filterByText } from 'redux/filterSlice';
 
-export default function FilterWords({ onChange }) {
+export default function FilterWords() {
+  const dispatch = useDispatch();
   return (
     <div>
       <TextField
-        onChange={onChange}
+        onChange={e => {
+          dispatch(filterByText(e.target.value));
+        }}
         id="outlined-basic"
         label="Search"
         variant="outlined"

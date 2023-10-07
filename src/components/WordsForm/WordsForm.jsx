@@ -3,6 +3,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import css from './WordsForm.module.css';
 import { nanoid } from 'nanoid';
+import { useDispatch } from 'react-redux';
+import { addWord } from 'redux/wordsSlice';
 const initialState = {
   ukWord: '',
   enWord: '',
@@ -18,7 +20,8 @@ const reducer = (state, action) => {
       return state;
   }
 };
-const WordsForm = ({ onSubmit }) => {
+const WordsForm = () => {
+  const dispatchToRedux = useDispatch();
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleChange = ({ target: { name, value } }) => {
@@ -28,7 +31,13 @@ const WordsForm = ({ onSubmit }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    onSubmit({ ...state, id: nanoid(5) });
+    // onSubmit({ ...state, id: nanoid(5) });
+    dispatchToRedux(
+      addWord({
+        ...state,
+        id: nanoid(5),
+      })
+    );
     dispatch({ type: 'reset' });
   };
 

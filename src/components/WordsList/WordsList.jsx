@@ -1,16 +1,14 @@
 import WordListItem from 'components/WordListItem/WordListItem';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectFilteredWords } from 'redux/selectors';
 
-const WordsList = ({ words, deleteWord, handlEditWord }) => {
+const WordsList = () => {
+  const words = useSelector(selectFilteredWords);
   return (
     <ul>
       {words.map(word => (
-        <WordListItem
-          key={word.id}
-          word={word}
-          deleteWord={deleteWord}
-          handlEditWord={handlEditWord}
-        />
+        <WordListItem key={word.id} word={word} />
       ))}
     </ul>
   );
